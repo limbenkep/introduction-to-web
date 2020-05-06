@@ -1,0 +1,41 @@
+
+
+body {
+    max-width: 600px; /* sets max width of the website page */
+    font-family: Arial, helvetica, sans-serif;
+    font-size: medium;
+    color: black;
+    text-align: center;
+    margin: auto;
+    padding-top: 10px;
+    background-color: #add8e6;
+    background-image: url(../img/beach.png);
+    background-position: 100% center;
+}
+header {
+    background-color: lightpink;
+    padding-top: 2px;
+}
+header img {
+    width: 100px;
+    height: 50px;
+}
+
+footer {
+    padding-top: 5px;
+    background-color: lightgray;
+
+}
+#text_screen {
+    border: 0.2px solid orange;
+}
+
+#text_heading {
+    text-align:center;
+}
+#author {
+    text-align: center;
+}
+#text_content {
+    text-align: left;
+}
