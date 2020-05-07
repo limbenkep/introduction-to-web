@@ -30,7 +30,7 @@ footer {
     border: 0.2px solid orange;
 }
 
-#text_heading {
+/*#text_heading {
     text-align:center;
 }
 #author {
@@ -38,4 +38,15 @@ footer {
 }
 #text_content {
     text-align: left;
+}*/
+
+section textarea {
+    height: 200px;
+    width: 500px;
+    text-align: left;
+
+}
+
+div section {
+    border: 5px solid orange;
 }
