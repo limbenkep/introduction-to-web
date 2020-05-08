@@ -105,10 +105,31 @@ function tractTyping() {
         }
     })
 }
+
+function startGame() {
+    var button_id = document.getElementById("control_button")
+    button_id.addEventListener("click", switchButton())
+}
+
+function switchButton() {
+    var button_id = document.getElementById("control_button")
+    var choice = button_id.value;
+    if(choice === "START")
+    {
+        button_id.value = "STOP";
+        button_id.style.backgroundImage = "url('img/red.jpg')";
+    }
+    if(choice === "STOP")
+    {
+        button_id.value = "START";
+        button_id.style.backgroundImage = "url('img/green.jpg')";
+    }
+}
 function main() {
     document.getElementById("myTextarea").readOnly = true;
 }
 
 window.addEventListener("change", displaytext);
 window.addEventListener("keyup", tractTyping);
+window.addEventListener("click", startGame);
 window.addEventListener("load", main, false);

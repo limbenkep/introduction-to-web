@@ -29,6 +29,9 @@ footer {
 #text_screen {
     border: 0.2px solid orange;
 }
+#typing_area {
+    border: 0.2px solid orange;
+}
 
 /*#text_heading {
     text-align:center;
@@ -49,4 +52,8 @@ section textarea {
 
 div section {
     border: 5px solid orange;
+}
+
+#control_button {
+    background-image: url( ../img/green.jpg);
 }
