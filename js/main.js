@@ -56,12 +56,26 @@ var textnr3 = {
     }
 }
 
+var textArray = [textnr1, textnr2, textnr3]
 
+function wordCount(mystring) {
+    return mystring.split(" ").length;
+}
+
+function byId(id) {
+return document.getElementById(id);
+}
 function displaytext() {
 
     var selected = document.getElementById("text_choices").value;
+    var textString = textArray[selected-1].text;
+    var nrOfCharacter = textString.length;
+    var nrOfWords = wordCount(textString);
+    document.getElementById("text_title").innerText = textArray[selected - 1].textTitle() + ' (' + nrOfWords + ' words, ' + nrOfCharacter + ' chars)';
+    document.getElementById("text_author").innerText = textArray[selected - 1].authorName();
+    document.getElementById("text_content").innerText = textArray[selected - 1].textContent();
 
-    switch (selected) {
+    /*switch (selected) {
         case "1":
             document.getElementById("text_title").innerText = textnr1.textTitle();
             document.getElementById("text_author").innerText = textnr1.authorName();
@@ -77,11 +91,24 @@ function displaytext() {
             document.getElementById("text_author").innerText = textnr3.authorName();
             document.getElementById("text_content").innerText = textnr3.textContent();
             break;
-    }
+    }*/
+}
+
+function tractTyping() {
+    var typeAreaId = document.getElementById("typing_area");
+    typeAreaId.addEventListener("keyup", function () {
+        var typedText = typeAreaId.value;
+        var lengthOfText = typedText.length;
+        if(typedText[lengthOfText-1] === " ")
+        {
+            typeAreaId.value = "";
+        }
+    })
 }
 function main() {
     document.getElementById("myTextarea").readOnly = true;
 }
 
 window.addEventListener("change", displaytext);
+window.addEventListener("keyup", tractTyping);
 window.addEventListener("load", main, false);
