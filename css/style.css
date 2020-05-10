@@ -26,11 +26,11 @@ footer {
     background-color: lightgray;
 
 }
-#text_screen {
-    border: 0.2px solid orange;
+#display_text {
+    border: 5px solid orange;
 }
 #typing_area {
-    border: 0.2px solid orange;
+    border: 5px solid orange;
 }
 
 /*#text_heading {
@@ -39,9 +39,10 @@ footer {
 #author {
     text-align: center;
 }
-#text_content {
-    text-align: left;
-}*/
+*/
+#typing_area {
+    text-align: center;
+}
 
 section textarea {
     height: 200px;
@@ -50,10 +51,33 @@ section textarea {
 
 }
 
-div section {
-    border: 5px solid orange;
-}
 
 #control_button {
     background-image: url( ../img/green.jpg);
+}
+
+/*.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}*/
+#statistics p {
+    width: 45%;
+    text-align: right;
+    box-sizing: border-box;
+    display: inline-block;
+
+}
+
+#statistics {
+    width: 45%;
+    box-sizing: border-box;
+    overflow: auto;
+    position: center;
+}
+
+div {
+    text-align: left;
 }
