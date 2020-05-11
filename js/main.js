@@ -14,41 +14,76 @@ const textnr2 = new Text('Moln', 'Karin Boye', 'swedish',
     'Se de mäktiga moln, vilkas fjärran höga toppar stolta, skimrande resa sig, vita som vit snö! Lugna glida de fram för att slutligen lugnt dö sakta lösande sig i en skur av svala droppar. Majestätiska moln - genom livet, genom döden gå de leende fram i en strålande sols sken utan skymmande oro i eter så klart ren, gå med storstilat, stilla förakt för sina öden.'
 );
 
-var textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
+const textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
     'Så säger jag er, mina vänner, att jag trots dagens och morgondagens svårigheter har en dröm. Det är en dröm med djupa rötter i den amerikanska drömmen om att denna nation en dag kommer att resa sig och leva ut den övertygelsens innersta mening, som vi håller för självklar: Att alla människor är skapade med samma värde.'
 );
 
-
+var chars = document.getElementsByClassName("char");
 var textArray = [textnr1, textnr2, textnr3];
+var typed_text;
+var start_time=0;
+var current_time=0;
+var total_errors =0;
+var total_char = 0;
 
 
 function byId(id) {
     return document.getElementById(id);
 }
+
+/**
+ * function receives a Text object and set the title, author and text content to the corresponding html elements to be displayed on the screen
+ * @param selected_text is a Text object
+ */
 function changeText(selected_text) {
     document.getElementById("text_title").innerText = selected_text.textInfo;
     document.getElementById("text_author").innerText = selected_text.author;
     document.getElementById("text_content").innerHTML = spanText(selected_text.text).innerHTML;
-
 }
+
+/**
+ * this function listens for when the user selects a text,
+ * calls the function changeText and passes the Text object corresponding to the user's choice
+ */
 function displaytext() {
-    var selected_value = document.getElementById("text_choices").value;
-    var selected_text = textArray[selected_value - 1];
-    changeText(selected_text);
+    var select_id = document.getElementById("text_choices");
+    select_id.addEventListener("change", function () {
+        var selected_value = document.getElementById("text_choices").value;
+        var selected_text = textArray[selected_value - 1];
+        changeText(selected_text);
+        chars[0].style.backgroundColor = "yellow";
+    })
+
 }
 
+function getEntryInfo(text) {
+
+}
 /*
-This function clears the content of the input box whenever the user presses the space button
+This function listens for when the user types a new character then,
+move highlight to next character,
+change the color of the current character,
+check if the character entered is a space, if so
+clears the content of the input box.
  */
 function tractTyping() {
+
     var typeAreaId = document.getElementById("typing_area");
     typeAreaId.addEventListener("keyup", function () {
+        total_char++;
+        console.log("total chars: " + total_char + "\n");
         var typedText = typeAreaId.value;
         var lengthOfText = typedText.length;
-        if (typedText[lengthOfText - 1] === " ") {
+        chars[total_char-1].style.color = "grey"; //changes color of type character
+        chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
+        chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
+
+        if (typedText[lengthOfText- 1] === " ")
+        {
             typeAreaId.value = "";
         }
-    }, false)
+
+    }, false);
 }
 
 function startGame() {
@@ -96,11 +131,40 @@ function spanText(myText) {
 
 }
 
-function main() {
-    changeText(textArray[0]);
+/**
+ * creates a date a new date object with the current time
+ * uses the Date object method getTime to get the number of milliseconds since midnight jan 1 1970 to current time
+ * returns number of milliseconds
+ * @returns {number}
+ */
+function getNewTime() {
+    var myDate = new Date();
+    return  myDate.getTime();
 }
 
-window.addEventListener("change", displaytext, false);
-window.addEventListener("keyup", tractTyping, false);
-window.addEventListener("click", startGame, false);
+/**
+ * computes gross and net WPM, accuracy and update the statistics displayed
+ */
+function updateStatistics() {
+    var elapsed_minutes = (current_time - start_time)/60000; //time is converted from milliseconds to minute
+    var total_words = (typed_text.length)/5;
+    var grossWPM = total_words/elapsed_minutes;
+    var netWPM = grossWPM - (total_errors/elapsed_minutes);
+    var typing_accuracy = 100*(total_words-total_errors)/total_words;
+    document.getElementById("gross_wpm").innerText = grossWPM;
+    document.getElementById("net_wpm").innerText = netWPM;
+    document.getElementById("accuracy").innerText = typing_accuracy;
+    document.getElementById("errors").innerText = total_errors;
+
+}
+
+function main() {
+    changeText(textArray[0]);
+    chars[0].style.backgroundColor = "yellow";
+
+}
+
+window.addEventListener("load", displaytext, false);
+window.addEventListener("load", tractTyping, false);
+window.addEventListener("load", startGame, false);
 window.addEventListener("load", main, false);

@@ -1,4 +1,8 @@
 
+html {
+    background-color: #add8e6;
+}
+
 
 body {
     max-width: 600px; /* sets max width of the website page */
@@ -8,10 +12,15 @@ body {
     text-align: center;
     margin: auto;
     padding-top: 10px;
+
+}
+
+main {
     background-color: #add8e6;
     background-image: url(../img/beach.png);
     background-position: 100% center;
 }
+
 header {
     background-color: lightpink;
     padding-top: 2px;
@@ -48,7 +57,6 @@ section textarea {
     height: 200px;
     width: 500px;
     text-align: left;
-
 }
 
 
@@ -66,18 +74,12 @@ section textarea {
 #statistics p {
     width: 45%;
     text-align: right;
-    box-sizing: border-box;
     display: inline-block;
 
 }
-
+/*left and right padding to place contents more centered to the page*/
 #statistics {
-    width: 45%;
-    box-sizing: border-box;
-    overflow: auto;
-    position: center;
+    padding-right: 15%;
+    padding-left: 15%;
 }
 
-div {
-    text-align: left;
-}
