@@ -26,29 +26,14 @@ footer {
     background-color: lightgray;
 
 }
-#display_text {
+#text_area {
     border: 5px solid orange;
-}
-#typing_area {
-    border: 5px solid orange;
-}
-
-/*#text_heading {
-    text-align:center;
-}
-#author {
-    text-align: center;
-}
-*/
-#typing_area {
-    text-align: center;
-}
-
-section textarea {
-    height: 200px;
-    width: 500px;
     text-align: left;
-
+    padding: 5px;
+}
+#typing_area {
+    border: 5px solid orange;
+    text-align: center;
 }
 
 
@@ -56,28 +41,16 @@ section textarea {
     background-image: url( ../img/green.jpg);
 }
 
-/*.left {
-    float: left;
-}
 
-.right {
-    float: right;
-}*/
 #statistics p {
     width: 45%;
     text-align: right;
-    box-sizing: border-box;
     display: inline-block;
 
 }
-
+/*styling for the statistics box to make content display more centered*/
 #statistics {
-    width: 45%;
-    box-sizing: border-box;
-    overflow: auto;
-    position: center;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
-div {
-    text-align: left;
-}

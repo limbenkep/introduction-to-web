@@ -14,12 +14,17 @@ const textnr2 = new Text('Moln', 'Karin Boye', 'swedish',
     'Se de mäktiga moln, vilkas fjärran höga toppar stolta, skimrande resa sig, vita som vit snö! Lugna glida de fram för att slutligen lugnt dö sakta lösande sig i en skur av svala droppar. Majestätiska moln - genom livet, genom döden gå de leende fram i en strålande sols sken utan skymmande oro i eter så klart ren, gå med storstilat, stilla förakt för sina öden.'
 );
 
-var textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
+const textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
     'Så säger jag er, mina vänner, att jag trots dagens och morgondagens svårigheter har en dröm. Det är en dröm med djupa rötter i den amerikanska drömmen om att denna nation en dag kommer att resa sig och leva ut den övertygelsens innersta mening, som vi håller för självklar: Att alla människor är skapade med samma värde.'
 );
 
 
 var textArray = [textnr1, textnr2, textnr3];
+var typed_text;
+var start_time=0;
+var current_time=0;
+var total_errors =0;
+var total_char = 0;
 
 
 function byId(id) {
@@ -37,12 +42,18 @@ function displaytext() {
     changeText(selected_text);
 }
 
+function getEntryInfo(text) {
+
+}
 /*
 This function clears the content of the input box whenever the user presses the space button
  */
 function tractTyping() {
+
     var typeAreaId = document.getElementById("typing_area");
     typeAreaId.addEventListener("keyup", function () {
+        total_char++;
+        console.log("total chars: " + total_char + "\n");
         var typedText = typeAreaId.value;
         var lengthOfText = typedText.length;
         if (typedText[lengthOfText - 1] === " ") {
@@ -96,11 +107,38 @@ function spanText(myText) {
 
 }
 
+/**
+ * creates a date a new date object with the current time
+ * uses the Date object method getTime to get the number of milliseconds since midnight jan 1 1970 to current time
+ * returns number of milliseconds
+ * @returns {number}
+ */
+function getNewTime() {
+    var myDate = new Date();
+    return  myDate.getTime();
+}
+
+/**
+ * computes gross and net WPM, accuracy and update the statistics displayed
+ */
+function updateStatistics() {
+    var elapsed_minutes = (current_time - start_time)/60000; //time is converted from milliseconds to minute
+    var total_words = (typed_text.length)/5;
+    var grossWPM = total_words/elapsed_minutes;
+    var netWPM = grossWPM - (total_errors/elapsed_minutes);
+    var typing_accuracy = 100*(total_words-total_errors)/total_words;
+    document.getElementById("gross_wpm").innerText = grossWPM;
+    document.getElementById("net_wpm").innerText = netWPM;
+    document.getElementById("accuracy").innerText = typing_accuracy;
+    document.getElementById("errors").innerText = total_errors;
+
+}
+
 function main() {
     changeText(textArray[0]);
 }
 
-window.addEventListener("change", displaytext, false);
-window.addEventListener("keyup", tractTyping, false);
-window.addEventListener("click", startGame, false);
+window.addEventListener("select", displaytext, false);
+window.addEventListener("load", tractTyping, false);
+window.addEventListener("load", startGame, false);
 window.addEventListener("load", main, false);
