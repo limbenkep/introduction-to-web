@@ -35,21 +35,13 @@ footer {
     background-color: lightgray;
 
 }
-#display_text {
+#text_area {
     border: 5px solid orange;
+    text-align: left;
+    padding: 5px;
 }
 #typing_area {
     border: 5px solid orange;
-}
-
-/*#text_heading {
-    text-align:center;
-}
-#author {
-    text-align: center;
-}
-*/
-#typing_area {
     text-align: center;
 }
 
@@ -59,27 +51,21 @@ section textarea {
     text-align: left;
 }
 
-
 #control_button {
     background-image: url( ../img/green.jpg);
 }
 
-/*.left {
-    float: left;
-}
 
-.right {
-    float: right;
-}*/
 #statistics p {
     width: 45%;
     text-align: right;
     display: inline-block;
 
 }
-/*left and right padding to place contents more centered to the page*/
+
+/*styling for the statistics box to make content display more centered*/
 #statistics {
-    padding-right: 15%;
     padding-left: 15%;
+    padding-right: 15%;
 }
 

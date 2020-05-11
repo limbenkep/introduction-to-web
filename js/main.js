@@ -165,6 +165,7 @@ function main() {
 }
 
 window.addEventListener("load", displaytext, false);
+
 window.addEventListener("load", tractTyping, false);
 window.addEventListener("load", startGame, false);
 window.addEventListener("load", main, false);
