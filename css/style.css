@@ -35,9 +35,13 @@ footer {
     background-color: lightgray;
 
 }
+
+#text_content
+{
+    text-align: left;
+}
 #text_area {
     border: 5px solid orange;
-    text-align: left;
     padding: 5px;
 }
 #typing_area {
@@ -45,11 +49,6 @@ footer {
     text-align: center;
 }
 
-section textarea {
-    height: 200px;
-    width: 500px;
-    text-align: left;
-}
 
 #control_button {
     background-image: url( ../img/green.jpg);

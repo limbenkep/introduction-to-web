@@ -19,12 +19,17 @@ const textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
 );
 
 var chars = document.getElementsByClassName("char");
+var typingAreaId = document.getElementById("typing_area");
+
+
 var textArray = [textnr1, textnr2, textnr3];
-var typed_text;
-var start_time=0;
-var current_time=0;
-var total_errors =0;
+var currentTextContent;
+//var typed_text;
+var startTime=0;
+var currentTime=0;
+var total_errors =0
 var total_char = 0;
+
 
 
 function byId(id) {
@@ -48,17 +53,16 @@ function changeText(selected_text) {
 function displaytext() {
     var select_id = document.getElementById("text_choices");
     select_id.addEventListener("change", function () {
-        var selected_value = document.getElementById("text_choices").value;
-        var selected_text = textArray[selected_value - 1];
-        changeText(selected_text);
+        var selectedValue = document.getElementById("text_choices").value;
+        var selectedText = textArray[selectedValue - 1];
+
+        changeText(selectedText);
         chars[0].style.backgroundColor = "yellow";
-    })
+
+    }, false)
 
 }
 
-function getEntryInfo(text) {
-
-}
 /*
 This function listens for when the user types a new character then,
 move highlight to next character,
@@ -68,43 +72,124 @@ clears the content of the input box.
  */
 function tractTyping() {
 
+    var button_id = document.getElementById("control_button")
+    button_id.addEventListener("click", function (){
+        switchControlButton();
+        enableInputArea();
+        if(gameStarted()){
+            startTime = getNewTime();
+        }
+    }, false);
+
     var typeAreaId = document.getElementById("typing_area");
     typeAreaId.addEventListener("keyup", function () {
         total_char++;
         console.log("total chars: " + total_char + "\n");
+        currentTime = getNewTime();
+        console.log("current time: " + currentTime + "\n");
+       // console.log("text chars: " + currentTextContent[total_char-] + "\n");
+
         var typedText = typeAreaId.value;
         var lengthOfText = typedText.length;
         chars[total_char-1].style.color = "grey"; //changes color of type character
         chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
         chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
-
+        correctLetter = chars[total_char-1].innerHTML;
         if (typedText[lengthOfText- 1] === " ")
         {
             typeAreaId.value = "";
         }
 
+        if (typedText[lengthOfText- 1] !== correctLetter)
+        {
+            total_errors++;
+        }
+
+        var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
+        var total_words = (total_char)/5;
+        var grossWPM = total_words/elapsed_minutes;
+        var netWPM = grossWPM - (total_errors/elapsed_minutes);
+        var typing_accuracy = 100*(total_char-total_errors)/total_char;
+        document.getElementById("gross_wpm").innerText = grossWPM;
+        document.getElementById("net_wpm").innerText = netWPM;
+        document.getElementById("accuracy").innerText = typing_accuracy;
+        document.getElementById("errors").innerText = total_errors;
+        console.log("total errors: " + total_errors + "\n");
+
     }, false);
 }
+function gameStarted() {
+    var button_id = document.getElementById("control_button");
+    var choice = button_id.value;
 
-function startGame() {
-    var button_id = document.getElementById("control_button")
-    button_id.addEventListener("click", switchButton, false)
+    if (choice === "STOP")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
+/*getStartTime() {
+    var button_id = document.getElementById("control_button")
+    button_id.addEventListener("click", function (){
+
+        if(gameStarted()){
+            startTime = getNewTime();
+        }
+}*/
+
 /*
-This function switches between start and stop by changing the background image and the value of the button
+function startGame(myStartTime) {
+    var button_id = document.getElementById("control_button")
+    button_id.addEventListener("click", function (){
+        switchControlButton();
+        enableInputArea();
+        if(gameStarted()){
+            startTime = getNewTime();
+        }
+
+    }, false);
+}
+*/
+
+
+
+/*
+This function switches between play and stop by changing the background image and the value of the button
 each time the button is clicked
  */
-function switchButton() {
-    var button_id = document.getElementById("control_button")
+function switchControlButton() {
+    var button_id = document.getElementById("control_button");
     var choice = button_id.value;
+
     if (choice === "START") {
         button_id.value = "STOP";
         button_id.style.backgroundImage = "url('img/red.jpg')";
     }
-    if (choice === "STOP") {
+    else if (choice === "STOP") {
         button_id.value = "START";
         button_id.style.backgroundImage = "url('img/green.jpg')";
+    }
+}
+
+/**
+ * this function enable the element with id "typing_area" (area for typing) when the value of the button
+ * with id "control_button") is 'STOP' (when the game is started) and disable the element (typing area)
+ * when the button value is 'START' (the game is stopped)
+ */
+function enableInputArea(){
+    var typingAreaId = document.getElementById("typing_area");
+    var button_id = document.getElementById("control_button");
+    var choice = button_id.value;
+    if (choice === "START") {
+        typingAreaId.disabled = true;
+
+    }
+    else if (choice === "STOP") {
+        typingAreaId.disabled = false;
     }
 }
 
@@ -145,8 +230,8 @@ function getNewTime() {
 /**
  * computes gross and net WPM, accuracy and update the statistics displayed
  */
-function updateStatistics() {
-    var elapsed_minutes = (current_time - start_time)/60000; //time is converted from milliseconds to minute
+function updateStatistics(myText, time1, ) {
+    var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
     var total_words = (typed_text.length)/5;
     var grossWPM = total_words/elapsed_minutes;
     var netWPM = grossWPM - (total_errors/elapsed_minutes);
@@ -155,17 +240,20 @@ function updateStatistics() {
     document.getElementById("net_wpm").innerText = netWPM;
     document.getElementById("accuracy").innerText = typing_accuracy;
     document.getElementById("errors").innerText = total_errors;
+    console.log("total errors: " + total_errors + "\n");
+
 
 }
 
 function main() {
-    changeText(textArray[0]);
-    chars[0].style.backgroundColor = "yellow";
-
+    changeText(textArray[0]);//set default text as the first text of the TextArray
+    chars[0].style.backgroundColor = "yellow";//hightlight the first letter of the text
+    var typingAreaId = document.getElementById("typing_area");
+    typingAreaId.disabled = true;
 }
 
 window.addEventListener("load", displaytext, false);
 
 window.addEventListener("load", tractTyping, false);
-window.addEventListener("load", startGame, false);
+//window.addEventListener("load", startGame, false);
 window.addEventListener("load", main, false);
