@@ -25,22 +25,28 @@ var typingAreaId = document.getElementById("typing_area");
 var textArray = [textnr1, textnr2, textnr3];
 var currentTextContent;
 //var typed_text;
+//var selectedText = new Text();
 var startTime=0;
 var currentTime=0;
 var total_errors =0
 var total_char = 0;
 
-
+/*function fillSelectedText(myText) {
+    selectedText.title = myText.title;
+    selectedText.author = myText.author;
+    selectedText.language = myText.author;
+    selectedText.text = myText.text;
+}*/
 
 function byId(id) {
     return document.getElementById(id);
 }
 
 /**
- * function receives a Text object and set the title, author and text content to the corresponding html elements to be displayed on the screen
- * @param selected_text is a Text object
+ * function author and text content to the corresponding html elements to be displayed on the screen
+ *
  */
-function changeText(selected_text) {
+function DisplayText(selected_text) {
     document.getElementById("text_title").innerText = selected_text.textInfo;
     document.getElementById("text_author").innerText = selected_text.author;
     document.getElementById("text_content").innerHTML = spanText(selected_text.text).innerHTML;
@@ -48,18 +54,19 @@ function changeText(selected_text) {
 
 /**
  * this function listens for when the user selects a text,
- * calls the function changeText and passes the Text object corresponding to the user's choice
+ * calls the function DisplayText and passes the Text object corresponding to the user's choice
  */
-function displaytext() {
+function changeText() {
     var select_id = document.getElementById("text_choices");
     select_id.addEventListener("change", function () {
         var selectedValue = document.getElementById("text_choices").value;
         var selectedText = textArray[selectedValue - 1];
 
-        changeText(selectedText);
+        DisplayText(selectedText);
         chars[0].style.backgroundColor = "yellow";
 
     }, false)
+
 
 }
 
@@ -230,7 +237,7 @@ function getNewTime() {
 /**
  * computes gross and net WPM, accuracy and update the statistics displayed
  */
-function updateStatistics(myText, time1, ) {
+/*function updateStatistics(myText, time1, ) {
     var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
     var total_words = (typed_text.length)/5;
     var grossWPM = total_words/elapsed_minutes;
@@ -243,17 +250,19 @@ function updateStatistics(myText, time1, ) {
     console.log("total errors: " + total_errors + "\n");
 
 
-}
+}*/
 
 function main() {
-    changeText(textArray[0]);//set default text as the first text of the TextArray
+    DisplayText(textArray[0]);//set default text as the first text of the TextArray
     chars[0].style.backgroundColor = "yellow";//hightlight the first letter of the text
     var typingAreaId = document.getElementById("typing_area");
     typingAreaId.disabled = true;
+    changeText();
+    tractTyping();
 }
 
-window.addEventListener("load", displaytext, false);
+//window.addEventListener("load", changeText, false);
 
-window.addEventListener("load", tractTyping, false);
+//window.addEventListener("load", tractTyping, false);
 //window.addEventListener("load", startGame, false);
 window.addEventListener("load", main, false);

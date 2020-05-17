@@ -1,4 +1,22 @@
 
+@import url(//fonts.googleapis.com/css?family=Balsamiq+Sans);
+@font-face {
+    [font-family: "Open Sans";]
+    [src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2")],
+    [url("/fonts/OpenSans-Regular-webfont.woff") format("woff")];
+}
+/*Animation to change background color and font-size*/
+@keyframes animate {
+    0%   {
+        background-color: lightpink;
+        font-size: small;
+    }
+    100% {
+        background-color: yellow;
+        font-size: large;
+    }
+}
+
 html {
     background-color: #add8e6;
 }
@@ -6,7 +24,7 @@ html {
 
 body {
     max-width: 600px; /* sets max width of the website page */
-    font-family: Arial, helvetica, sans-serif;
+    font-family: 'Open+Sans', Arial, helvetica, sans-serif;
     font-size: medium;
     color: black;
     text-align: center;
@@ -22,6 +40,10 @@ main {
 }
 
 header {
+    animation: animate;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    font-family: 'Balsamiq+Sans', Arial, helvetica, sans-serif;
     background-color: lightpink;
     padding-top: 2px;
 }
