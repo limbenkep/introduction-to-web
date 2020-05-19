@@ -41,7 +41,7 @@ main {
 
 header {
     animation: animate;
-    animation-duration: 4s;
+    animation-duration: 60s;
     animation-iteration-count: infinite;
     font-family: 'Balsamiq+Sans', Arial, helvetica, sans-serif;
     background-color: lightpink;

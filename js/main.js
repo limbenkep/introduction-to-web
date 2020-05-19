@@ -19,7 +19,8 @@ const textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
 );
 
 var chars = document.getElementsByClassName("char");
-var typingAreaId = document.getElementById("typing_area");
+//var typingAreaId = document.getElementById("typing_area");
+//
 
 
 var textArray = [textnr1, textnr2, textnr3];
@@ -31,12 +32,6 @@ var currentTime=0;
 var total_errors =0
 var total_char = 0;
 
-/*function fillSelectedText(myText) {
-    selectedText.title = myText.title;
-    selectedText.author = myText.author;
-    selectedText.language = myText.author;
-    selectedText.text = myText.text;
-}*/
 
 function byId(id) {
     return document.getElementById(id);
@@ -59,17 +54,21 @@ function DisplayText(selected_text) {
 function changeText() {
     var select_id = document.getElementById("text_choices");
     select_id.addEventListener("change", function () {
-        var selectedValue = document.getElementById("text_choices").value;
-        var selectedText = textArray[selectedValue - 1];
-
-        DisplayText(selectedText);
-        chars[0].style.backgroundColor = "yellow";
-
+        defaultState();
+        resetgame();
     }, false)
 
 
 }
-
+function resetgame() {
+    chars = document.getElementsByClassName("char");
+    var selectedValue = document.getElementById("text_choices").value;
+    var selectedText = textArray[selectedValue - 1];
+    DisplayText(selectedText);
+    chars[0].style.backgroundColor = "yellow";
+    document.getElementById("typing_area").value= "";
+    resetStatistics();
+}
 /*
 This function listens for when the user types a new character then,
 move highlight to next character,
@@ -81,47 +80,67 @@ function tractTyping() {
 
     var button_id = document.getElementById("control_button")
     button_id.addEventListener("click", function (){
+        resetgame();
         switchControlButton();
         enableInputArea();
         if(gameStarted()){
-            startTime = getNewTime();
+            var chars = document.getElementsByClassName("char");
+
+
+            /*startTime = getNewTime();
+            //currentTime = startTime;
+            total_chars = 0;
+            total_errors = 0;*/
+        }
+        else
+        {
+            return 0;
         }
     }, false);
 
+
+}
+function typeOn(){
     var typeAreaId = document.getElementById("typing_area");
-    typeAreaId.addEventListener("keyup", function () {
-        total_char++;
-        console.log("total chars: " + total_char + "\n");
-        currentTime = getNewTime();
-        console.log("current time: " + currentTime + "\n");
-       // console.log("text chars: " + currentTextContent[total_char-] + "\n");
-
-        var typedText = typeAreaId.value;
-        var lengthOfText = typedText.length;
-        chars[total_char-1].style.color = "grey"; //changes color of type character
-        chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
-        chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
-        correctLetter = chars[total_char-1].innerHTML;
-        if (typedText[lengthOfText- 1] === " ")
+    typeAreaId.addEventListener("keyup", function (keyboardEvent) {
+        var typedKeyCode = keyboardEvent.key;
+        console.log("keycode" + typedKeyCode);
+        if (typedKeyCode !== 'CapsLock')// This condition excludes the cap key from being counteted as a character
         {
-            typeAreaId.value = "";
-        }
+            total_char++;
+            console.log("total chars: " + total_char + "\n");
+            currentTime = getNewTime();
+            console.log("current time: " + currentTime + "\n");
+            // console.log("text chars: " + currentTextContent[total_char-] + "\n");
 
-        if (typedText[lengthOfText- 1] !== correctLetter)
-        {
-            total_errors++;
-        }
+            var typedText = typeAreaId.value;
+            var lengthOfText = typedText.length;
+            chars[total_char-1].style.color = "red"; //changes color of type character
+            chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
+            chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
+            correctLetter = chars[total_char-1].innerHTML;
+            if (typedText[lengthOfText- 1] === " ")
+            {
+                typeAreaId.value = "";
+            }
 
-        var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
-        var total_words = (total_char)/5;
-        var grossWPM = total_words/elapsed_minutes;
-        var netWPM = grossWPM - (total_errors/elapsed_minutes);
-        var typing_accuracy = 100*(total_char-total_errors)/total_char;
-        document.getElementById("gross_wpm").innerText = grossWPM;
-        document.getElementById("net_wpm").innerText = netWPM;
-        document.getElementById("accuracy").innerText = typing_accuracy;
-        document.getElementById("errors").innerText = total_errors;
-        console.log("total errors: " + total_errors + "\n");
+            if (typedText[lengthOfText- 1] !== correctLetter)
+            {
+                total_errors++;
+            }
+
+            var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
+            var total_words = (total_char)/5;
+            var grossWPM = total_words/elapsed_minutes;
+            var netWPM = grossWPM - (total_errors/elapsed_minutes);
+            var typing_accuracy = 100*(total_char-total_errors)/total_char;
+            document.getElementById("gross_wpm").innerText = grossWPM;
+            document.getElementById("net_wpm").innerText = netWPM;
+            document.getElementById("accuracy").innerText = typing_accuracy;
+            document.getElementById("errors").innerText = total_errors;
+            console.log("total errors: " + total_errors + "\n");
+
+        }
 
     }, false);
 }
@@ -182,6 +201,27 @@ function switchControlButton() {
     }
 }
 
+function defaultState(){
+    var button_id = document.getElementById("control_button");
+    button_id.value= 'START';
+    button_id.style.backgroundImage = "url('img/green.jpg')";
+    var typingAreaId = document.getElementById("typing_area");
+    typingAreaId.value = "";
+    typingAreaId.disabled = true;
+    //chars[0].style.backgroundColor = "yellow";
+}
+function resetStatistics(){
+    startTime=0;
+    currentTime=0;
+    total_errors =0
+    total_char = 0;
+    document.getElementById("gross_wpm").innerText = 0;
+    document.getElementById("net_wpm").innerText = 0;
+    document.getElementById("accuracy").innerText = 0;
+    document.getElementById("errors").innerText = 0;
+
+}
+
 /**
  * this function enable the element with id "typing_area" (area for typing) when the value of the button
  * with id "control_button") is 'STOP' (when the game is started) and disable the element (typing area)
@@ -237,9 +277,9 @@ function getNewTime() {
 /**
  * computes gross and net WPM, accuracy and update the statistics displayed
  */
-/*function updateStatistics(myText, time1, ) {
+function updateStatistics() {
     var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
-    var total_words = (typed_text.length)/5;
+    var total_words = (total_char)/5;
     var grossWPM = total_words/elapsed_minutes;
     var netWPM = grossWPM - (total_errors/elapsed_minutes);
     var typing_accuracy = 100*(total_words-total_errors)/total_words;
@@ -250,7 +290,7 @@ function getNewTime() {
     console.log("total errors: " + total_errors + "\n");
 
 
-}*/
+}
 
 function main() {
     DisplayText(textArray[0]);//set default text as the first text of the TextArray
@@ -259,6 +299,7 @@ function main() {
     typingAreaId.disabled = true;
     changeText();
     tractTyping();
+    typeOn();
 }
 
 //window.addEventListener("load", changeText, false);
