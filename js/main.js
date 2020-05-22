@@ -24,13 +24,15 @@ var chars = document.getElementsByClassName("char");
 
 
 var textArray = [textnr1, textnr2, textnr3];
-var currentTextContent;
-//var typed_text;
-//var selectedText = new Text();
+
+
 var startTime=0;
 var currentTime=0;
 var total_errors =0
 var total_char = 0;
+var mySound = new Audio("img/pop-sound-effect.mp3");
+var correctLetter;
+var typedLetter;
 
 
 function byId(id) {
@@ -69,6 +71,10 @@ function resetgame() {
     document.getElementById("typing_area").value= "";
     resetStatistics();
 }
+
+function ignoreCasing(){
+    return document.getElementById("ignore_case").checked;
+}
 /*
 This function listens for when the user types a new character then,
 move highlight to next character,
@@ -76,36 +82,23 @@ change the color of the current character,
 check if the character entered is a space, if so
 clears the content of the input box.
  */
-function tractTyping() {
+function startOrStopGame() {
 
     var button_id = document.getElementById("control_button")
     button_id.addEventListener("click", function (){
         resetgame();
         switchControlButton();
         enableInputArea();
-        if(gameStarted()){
-            var chars = document.getElementsByClassName("char");
-
-
-            /*startTime = getNewTime();
-            //currentTime = startTime;
-            total_chars = 0;
-            total_errors = 0;*/
-        }
-        else
-        {
-            return 0;
-        }
     }, false);
 
 
 }
-function typeOn(){
+function trackTyping(){
     var typeAreaId = document.getElementById("typing_area");
     typeAreaId.addEventListener("keyup", function (keyboardEvent) {
         var typedKeyCode = keyboardEvent.key;
         console.log("keycode" + typedKeyCode);
-        if (typedKeyCode !== 'CapsLock')// This condition excludes the cap key from being counteted as a character
+        if (typedKeyCode !== 'CapsLock')// This condition excludes the cap key from being counted as a character
         {
             total_char++;
             console.log("total chars: " + total_char + "\n");
@@ -115,18 +108,32 @@ function typeOn(){
 
             var typedText = typeAreaId.value;
             var lengthOfText = typedText.length;
-            chars[total_char-1].style.color = "red"; //changes color of type character
+            chars[total_char-1].style.color = "white"; //changes color of type character
             chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
             chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
             correctLetter = chars[total_char-1].innerHTML;
-            if (typedText[lengthOfText- 1] === " ")
+            typedLetter = typedText[lengthOfText- 1];
+
+            //When ever space is eneter, the input box is cleared
+            if (typedLetter === " ")
             {
                 typeAreaId.value = "";
             }
 
-            if (typedText[lengthOfText- 1] !== correctLetter)
+            /*whenever incorrect character is entered number of errors increases by one,
+            The character on the text is colored red and
+            a sound is played
+             */
+            if(ignoreCasing())
+            {
+                typedLetter = typedLetter.toLowerCase();
+                correctLetter = correctLetter.toLowerCase();
+            }
+            if (typedLetter !== correctLetter)
             {
                 total_errors++;
+                chars[total_char-1].style.color = "red";
+                mySound.play();
             }
 
             var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
@@ -157,31 +164,6 @@ function gameStarted() {
         return false;
     }
 }
-
-/*getStartTime() {
-    var button_id = document.getElementById("control_button")
-    button_id.addEventListener("click", function (){
-
-        if(gameStarted()){
-            startTime = getNewTime();
-        }
-}*/
-
-/*
-function startGame(myStartTime) {
-    var button_id = document.getElementById("control_button")
-    button_id.addEventListener("click", function (){
-        switchControlButton();
-        enableInputArea();
-        if(gameStarted()){
-            startTime = getNewTime();
-        }
-
-    }, false);
-}
-*/
-
-
 
 /*
 This function switches between play and stop by changing the background image and the value of the button
@@ -298,12 +280,12 @@ function main() {
     var typingAreaId = document.getElementById("typing_area");
     typingAreaId.disabled = true;
     changeText();
-    tractTyping();
-    typeOn();
+    startOrStopGame();
+    trackTyping();
 }
 
 //window.addEventListener("load", changeText, false);
 
-//window.addEventListener("load", tractTyping, false);
+//window.addEventListener("load", startOrStopGame, false);
 //window.addEventListener("load", startGame, false);
 window.addEventListener("load", main, false);
