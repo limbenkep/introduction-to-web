@@ -33,6 +33,7 @@ var total_char = 0;
 var mySound = new Audio("img/pop-sound-effect.mp3");
 var correctLetter;
 var typedLetter;
+var textLength =0;
 
 
 function byId(id) {
@@ -66,6 +67,7 @@ function resetgame() {
     chars = document.getElementsByClassName("char");
     var selectedValue = document.getElementById("text_choices").value;
     var selectedText = textArray[selectedValue - 1];
+    textLength = selectedText.text.length;
     DisplayText(selectedText);
     chars[0].style.backgroundColor = "yellow";
     document.getElementById("typing_area").value= "";
@@ -95,59 +97,66 @@ function startOrStopGame() {
 }
 function trackTyping(){
     var typeAreaId = document.getElementById("typing_area");
-    typeAreaId.addEventListener("keyup", function (keyboardEvent) {
-        var typedKeyCode = keyboardEvent.key;
-        console.log("keycode" + typedKeyCode);
-        if (typedKeyCode !== 'CapsLock')// This condition excludes the cap key from being counted as a character
+    typeAreaId.addEventListener("input", function (keyboardEvent) {
+
+        total_char++;
+        console.log("total chars: " + total_char + "\n");
+        currentTime = getNewTime();
+        console.log("current time: " + currentTime + "\n");
+        // console.log("text chars: " + currentTextContent[total_char-] + "\n");
+
+        var typedText = typeAreaId.value;
+        var lengthOfText = typedText.length;
+        chars[total_char-1].style.color = "white"; //changes color of type character
+        chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
+        //chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
+        correctLetter = chars[total_char-1].innerHTML;
+        typedLetter = typedText[lengthOfText- 1];
+
+        //When ever space is eneter, the input box is cleared
+        if (typedLetter === " ")
         {
-            total_char++;
-            console.log("total chars: " + total_char + "\n");
-            currentTime = getNewTime();
-            console.log("current time: " + currentTime + "\n");
-            // console.log("text chars: " + currentTextContent[total_char-] + "\n");
-
-            var typedText = typeAreaId.value;
-            var lengthOfText = typedText.length;
-            chars[total_char-1].style.color = "white"; //changes color of type character
-            chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
-            chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
-            correctLetter = chars[total_char-1].innerHTML;
-            typedLetter = typedText[lengthOfText- 1];
-
-            //When ever space is eneter, the input box is cleared
-            if (typedLetter === " ")
-            {
-                typeAreaId.value = "";
-            }
-
-            /*whenever incorrect character is entered number of errors increases by one,
-            The character on the text is colored red and
-            a sound is played
-             */
-            if(ignoreCasing())
-            {
-                typedLetter = typedLetter.toLowerCase();
-                correctLetter = correctLetter.toLowerCase();
-            }
-            if (typedLetter !== correctLetter)
-            {
-                total_errors++;
-                chars[total_char-1].style.color = "red";
-                mySound.play();
-            }
-
-            var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
-            var total_words = (total_char)/5;
-            var grossWPM = total_words/elapsed_minutes;
-            var netWPM = grossWPM - (total_errors/elapsed_minutes);
-            var typing_accuracy = 100*(total_char-total_errors)/total_char;
-            document.getElementById("gross_wpm").innerText = grossWPM;
-            document.getElementById("net_wpm").innerText = netWPM;
-            document.getElementById("accuracy").innerText = typing_accuracy;
-            document.getElementById("errors").innerText = total_errors;
-            console.log("total errors: " + total_errors + "\n");
-
+            typeAreaId.value = "";
         }
+
+        /*whenever incorrect character is entered number of errors increases by one,
+        The character on the text is colored red and
+        a sound is played
+         */
+        if(ignoreCasing())
+        {
+            typedLetter = typedLetter.toLowerCase();
+            correctLetter = correctLetter.toLowerCase();
+        }
+        if (typedLetter !== correctLetter)
+        {
+            total_errors++;
+            chars[total_char-1].style.color = "red";
+            mySound.play();
+        }
+        console.log("text lenghth:"+textLength);
+        if(total_char < textLength)
+        {
+            chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
+        }
+        else
+        {
+            typeAreaId.value ="GAME OVER!";
+            switchControlButton();
+            enableInputArea();
+        }
+
+        var elapsed_minutes = (currentTime - startTime)/60000; //time is converted from milliseconds to minute
+        var total_words = (total_char)/5;
+        var grossWPM = total_words/elapsed_minutes;
+        var netWPM = grossWPM - (total_errors/elapsed_minutes);
+        var typing_accuracy = 100*(total_char-total_errors)/total_char;
+        document.getElementById("gross_wpm").innerText = grossWPM;
+        document.getElementById("net_wpm").innerText = netWPM;
+        document.getElementById("accuracy").innerText = typing_accuracy;
+        document.getElementById("errors").innerText = total_errors;
+        console.log("total errors: " + total_errors + "\n");
+
 
     }, false);
 }
