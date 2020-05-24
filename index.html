@@ -17,18 +17,31 @@ holi1900@student.miun.se
 
     </header>
     <main>
-        <label>Choose text <br>
-            <select id= "text_choices">
-                <option value="1">Förändringens Tid</option>
-                <option value="2">Moln</option>
-                <option value="3">Jag har en dröm</option>
-                <option value="4">Doktor Glas</option>
-                <option value="5">Katherine</option>
-                <option value="6">Love and Weirdness</option>
-                <option value="7">Integrity</option>
-                <option value="8">The Odyssey</option>
-            </select>
-        </label>
+        <p id="setting">
+            <span>
+            <input type="checkbox" id="ignore_case" name="Ignore_casing"/>
+            <label for="ignore_case">Ignore Casing</label><br>
+            <input type="checkbox" id="swedish" name="swedish" value="swedish"/>
+            <label for="swedish">Swedish</label>
+            <input type="checkbox" id="english" name="english" value="english"/>
+            <label for="english">English</label>
+        </span>
+            <span>
+            <label>Choose text <br>
+                <select id= "text_choices">
+                    <option value="1">Förändringens Tid</option>
+                    <option value="2">Moln</option>
+                    <option value="3">Jag har en dröm</option>
+                    <option value="4">Doktor Glas</option>
+                    <option value="5">Katherine</option>
+                    <option value="6">Love and Weirdness</option>
+                    <option value="7">Integrity</option>
+                    <option value="8">The Odyssey</option>
+                </select>
+            </label>
+        </span>
+        </p>
+
 
         <section id="text_area">
             <h1 id="text_title">Förändringens Tid</h1>
@@ -37,8 +50,6 @@ holi1900@student.miun.se
                 </p>
         </section>
         <p>
-            <label for="ignore_case">Ignore Casing</label>
-            <input type="checkbox" id="ignore_case" placeholder="Ignore Casing"/><br>
             <label for="typing_area"></label>
             <input type="text" id="typing_area" placeholder="Type here..."/>
         </p>

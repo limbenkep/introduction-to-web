@@ -59,6 +59,7 @@ function changeText() {
     select_id.addEventListener("change", function () {
         defaultState();
         resetgame();
+        resetStatistics();
     }, false)
 
 
@@ -71,7 +72,7 @@ function resetgame() {
     DisplayText(selectedText);
     chars[0].style.backgroundColor = "yellow";
     document.getElementById("typing_area").value= "";
-    resetStatistics();
+    //resetStatistics();
 }
 
 function ignoreCasing(){
@@ -91,18 +92,24 @@ function startOrStopGame() {
         resetgame();
         switchControlButton();
         enableInputArea();
+        if(gameStarted())
+        {
+            resetStatistics(); //clear statistics
+            startTime = getNewTime();
+        }
     }, false);
 
 
 }
 function trackTyping(){
     var typeAreaId = document.getElementById("typing_area");
-    typeAreaId.addEventListener("input", function (keyboardEvent) {
+    typeAreaId.addEventListener("input", function () {
 
         total_char++;
         console.log("total chars: " + total_char + "\n");
         currentTime = getNewTime();
         console.log("current time: " + currentTime + "\n");
+        console.log("start time: " + startTime + "\n");
         // console.log("text chars: " + currentTextContent[total_char-] + "\n");
 
         var typedText = typeAreaId.value;
@@ -151,9 +158,9 @@ function trackTyping(){
         var grossWPM = total_words/elapsed_minutes;
         var netWPM = grossWPM - (total_errors/elapsed_minutes);
         var typing_accuracy = 100*(total_char-total_errors)/total_char;
-        document.getElementById("gross_wpm").innerText = grossWPM;
-        document.getElementById("net_wpm").innerText = netWPM;
-        document.getElementById("accuracy").innerText = typing_accuracy;
+        document.getElementById("gross_wpm").innerText = Math.round(grossWPM);
+        document.getElementById("net_wpm").innerText = Math.round(netWPM);
+        document.getElementById("accuracy").innerText = Math.round(typing_accuracy);
         document.getElementById("errors").innerText = total_errors;
         console.log("total errors: " + total_errors + "\n");
 
@@ -164,14 +171,7 @@ function gameStarted() {
     var button_id = document.getElementById("control_button");
     var choice = button_id.value;
 
-    if (choice === "STOP")
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return choice === "STOP";
 }
 
 /*

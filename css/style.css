@@ -76,7 +76,12 @@ footer {
     background-image: url( ../img/green.jpg);
 }
 
+#setting span {
+    width: 45%;
+    text-align: left;
+    display: inline-block;
 
+}
 #statistics p {
     width: 45%;
     text-align: right;
