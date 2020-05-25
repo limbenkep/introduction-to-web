@@ -17,15 +17,28 @@ const textnr2 = new Text('Moln', 'Karin Boye', 'swedish',
 const textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
     'Så säger jag er, mina vänner, att jag trots dagens och morgondagens svårigheter har en dröm. Det är en dröm med djupa rötter i den amerikanska drömmen om att denna nation en dag kommer att resa sig och leva ut den övertygelsens innersta mening, som vi håller för självklar: Att alla människor är skapade med samma värde.'
 );
+var textArray = [textnr1, textnr2, textnr3];
+var englishTexts = [];
+var swedishTexts = [];
+
+function loadText(lang){
+    let requestURL = "./js/texts.json"
+    let request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function() {
+        const jsonTexts = request.response[lang];
+        var arraylength = jsonTexts.length;
+
+        console.log("engligh texts: " + length);
+    }
+}
+
+
 
 var chars = document.getElementsByClassName("char");
-//var typingAreaId = document.getElementById("typing_area");
-//
-
-
-var textArray = [textnr1, textnr2, textnr3];
-
-
 var startTime=0;
 var currentTime=0;
 var total_errors =0
