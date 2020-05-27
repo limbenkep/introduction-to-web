@@ -18,11 +18,13 @@ const textnr3 =new Text('Jag har en dröm', 'Martin Luther King Jr.', 'swedish',
     'Så säger jag er, mina vänner, att jag trots dagens och morgondagens svårigheter har en dröm. Det är en dröm med djupa rötter i den amerikanska drömmen om att denna nation en dag kommer att resa sig och leva ut den övertygelsens innersta mening, som vi håller för självklar: Att alla människor är skapade med samma värde.'
 );
 var textArray = [textnr1, textnr2, textnr3];
-var myTextArray = [];
+//var myTextArray = [];
 var englishTexts = [];
 var swedishTexts = [];
 
-/*var lang = "swedishTexts";
+var lang = "";
+
+/*
 function getTexts(lang){
     let requestURL = "./js/texts.json"
     let request = new XMLHttpRequest();
@@ -31,37 +33,50 @@ function getTexts(lang){
     request.send();
 
     request.onload = function() {
-        const jsonTexts = request.response[lang];
+        const jsonTexts = request.response;
         var arraylength = jsonTexts.length;
 
         console.log("engligh texts: " + arraylength);
-    }*/
-var lang = "swedishTexts";
+    }
+*/
+
 function getTexts(){
     let requestURL = "./js/texts.json"
     let request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
     request.send();
+
     request.onload = function() {
-        const jsonTexts = request.response[lang];
-        console.log("texts:"+jsonTexts)
-        var arraylength = jsonTexts.length;
-        console.log("engligh textsbb: " + arraylength);
-        for(var i=0; i<arraylength; i++)
+        const response= request.response;
+        const jsonEnTexts = response["EN"];
+        const jsonSeTexts = response["SE"];
+        //console.log("texts:"+jsonTexts)
+
+        //console.log("engligh textsbb: " + arraylength);
+        for(var i=0; i<jsonEnTexts.length; i++)
         {
-            var title = jsonTexts[i].title;
-            var author = jsonTexts[i].author;
-            var language = jsonTexts[i].language;
-            var text = jsonTexts[i].text;
-            myTextArray[i] = new Text(title, author, language, text);
-            console.log("engligh title: " + myTextArray[i].title);
+            var title = jsonEnTexts[i].title;
+            var author = jsonEnTexts[i].author;
+            var language = jsonEnTexts[i].language;
+            var text = jsonEnTexts[i].text;
+            englishTexts.push(new Text(title, author, language, text));
+            console.log("engligh title: " + englishTexts[i].title);
         }
+
+        for(var j=0; j<jsonSeTexts.length; j++)
+        {
+            var title2 = jsonSeTexts[j].title;
+            var author2 = jsonSeTexts[j].author;
+            var language2 = jsonSeTexts[j].language;
+            var text2 = jsonSeTexts[j].text;
+            swedishTexts.push(new Text(title2, author2, language2, text2));
+            console.log("swedish title: " + swedishTexts[j].title);
+            //console.log("engligh title: " + myTextArray[i].title);
+        }
+
+
     }
-}
-
-function loadText(){
-
 }
 
 var chars = document.getElementsByClassName("char");
@@ -88,46 +103,89 @@ function chooseLanguage() {
     swed.addEventListener("click", function () {
         swed.checked = true;
         eng.checked = false;
-        lang = "swedishTexts";
-        getTexts();
+        createOptions();
+        displayText(swedishTexts[0]);
+        resetgame();
+        resetStatistics();
     }, false)
     eng.addEventListener("click", function () {
         eng.checked = true;
         swed.checked = false;
-        lang = "englishTexts"
-        getTexts();
+        createOptions();
+        displayText(englishTexts[0])
+        resetgame();
+        resetStatistics();
+
     }, false)
+    //console.log("title1: " + myTextArray[0].title);
+
+
 }
 
+function showMe(msg, arr) {
+    console.log(msg)
+    if(arr !== null) {
+        for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i]);
+
+        }
+    }else{
+        console.log("Arry is null");
+    }
+
+}
 /**
  * This function creates a select element containing an option elements for each text in myTextArray.
  * the options contain the text titles as innerText.
  */
 function createOptions() {
     var select = document.createElement("select");
-    var arrayLength = myTextArray.length;
-    for(var i= 0; i<arrayLength; i++)
+    //var textList = document.getElementById("text_choices")
+    if(document.getElementById("swedish").checked)
     {
-        var option = document.createElement("option");
-        option.value = i+1;
-        option.innerText = myTextArray[i].title;
-        select.appendChild(option);
+        for(var i= 0; i<swedishTexts.length; i++)
+        {
+            console.log("swedishlength: " + swedishTexts.length);
+            var option = document.createElement("option");
+            option.value = i+1;
+            option.innerText = swedishTexts[i].title;
+            console.log("choices "+ swedishTexts[i].title);
+            select.appendChild(option);
+        }
     }
+
+    if(document.getElementById("english").checked)
+    {
+        console.log("length: " + englishTexts.length);
+        for(var j= 0; j<englishTexts.length; j++)
+        {
+            var option2 = document.createElement("option");
+            option2.value = j+1;
+            option2.innerText = englishTexts[j].title;
+            console.log("choices "+ englishTexts[j].title)
+            select.appendChild(option2);
+        }
+    }
+
+    document.getElementById("text_choices").innerHTML= select.innerHTML;
+    //console.log("choices"+ select.innerHTML)
+
 }
 
 /**
  * function author and text content to the corresponding html elements to be displayed on the screen
  *
  */
-function DisplayText(selected_text) {
+function displayText(selected_text) {
     document.getElementById("text_title").innerText = selected_text.textInfo;
     document.getElementById("text_author").innerText = selected_text.author;
     document.getElementById("text_content").innerHTML = spanText(selected_text.text).innerHTML;
+
 }
 
 /**
  * this function listens for when the user selects a text,
- * calls the function DisplayText and passes the Text object corresponding to the user's choice
+ * calls the function displayText and passes the Text object corresponding to the user's choice
  */
 function changeText() {
     var select_id = document.getElementById("text_choices");
@@ -142,9 +200,17 @@ function changeText() {
 function resetgame() {
     chars = document.getElementsByClassName("char");
     var selectedValue = document.getElementById("text_choices").value;
-    var selectedText = textArray[selectedValue - 1];
+    var selectedText;
+    if(document.getElementById("english").checked)
+    {
+        selectedText = englishTexts[selectedValue - 1];
+    }
+    if(document.getElementById("swedish").checked)
+    {
+        selectedText = swedishTexts[selectedValue - 1];
+    }
     textLength = selectedText.text.length;
-    DisplayText(selectedText);
+    displayText(selectedText);
     chars[0].style.backgroundColor = "yellow";
     document.getElementById("typing_area").value= "";
     //resetStatistics();
@@ -359,12 +425,15 @@ function updateStatistics() {
 }
 
 function main() {
-    DisplayText(textArray[0]);//set default text as the first text of the TextArray
+    getTexts();
+    //document.getElementById("swedish").click();
+    displayText(textArray[0]);//set default text as the first text of the TextArray
     chars[0].style.backgroundColor = "yellow";//hightlight the first letter of the text
     var typingAreaId = document.getElementById("typing_area");
     typingAreaId.disabled = true;
+    document.getElementById("swedish").click();
+    createOptions();
     chooseLanguage();
-    getTexts();
     changeText();
     startOrStopGame();
     trackTyping();
