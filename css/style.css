@@ -1,9 +1,12 @@
 
-@import url(//fonts.googleapis.com/css?family=Balsamiq+Sans);
 @font-face {
-    [font-family: "Open Sans";]
-    [src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2")],
-    [url("/fonts/OpenSans-Regular-webfont.woff") format("woff")];
+    font-family: "webFontItalic";
+    src: url("OpenSans-Italic.ttf");
+}
+
+@font-face {
+    font-family: "webOpenSans";
+    src: url("OpenSans-ExtraBold.ttf");
 }
 /*Animation to change background color and font-size*/
 @keyframes animate {
@@ -24,7 +27,7 @@ html {
 
 body {
     max-width: 600px; /* sets max width of the website page */
-    font-family: 'Open+Sans', Arial, helvetica, sans-serif;
+    font-family:   Arial, helvetica, sans-serif;
     font-size: medium;
     color: black;
     text-align: center;
@@ -43,7 +46,7 @@ header {
     animation: animate;
     animation-duration: 60s;
     animation-iteration-count: infinite;
-    font-family: 'Balsamiq+Sans', Arial, helvetica, sans-serif;
+    font-family: webOpenSans, Arial, helvetica, sans-serif;
     background-color: lightpink;
     padding-top: 2px;
 }
@@ -53,6 +56,7 @@ header img {
 }
 
 footer {
+    font-family: webFontItalic, Arial, helvetica, sans-serif;
     padding-top: 5px;
     background-color: lightgray;
 
