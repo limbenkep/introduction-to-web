@@ -29,7 +29,7 @@ var swedishTexts = [];//array will be used to store english Text objects when go
  * that are then store in either englishText or swedistText arrays depending on the language
  */
 function getTexts(){
-    let requestURL = "./js/texts.json"
+    let requestURL = "texts.json"
     let request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
@@ -43,6 +43,7 @@ function getTexts(){
         //load englishText
         for(var i=0; i<jsonEnTexts.length; i++)
         {
+            //console.log(JSON.parse(jsonEnTexts[i]));
             var title = jsonEnTexts[i].title;
             var author = jsonEnTexts[i].author;
             var language = jsonEnTexts[i].language;
@@ -68,7 +69,7 @@ var startTime=0;
 var currentTime=0;
 var total_errors =0
 var total_char = 0;
-var mySound = new Audio("img/pop-sound-effect.mp3");
+var mySound = new Audio("audio/pop-sound-effect.mp3");
 var correctLetter;
 var typedLetter;
 var textLength =0;
@@ -241,7 +242,7 @@ function changeText() {
         defaultState();
         resetgame();
         resetStatistics();
-    }, false)
+    }, false);
 }
 
 /**
