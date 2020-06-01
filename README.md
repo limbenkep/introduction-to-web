@@ -1,7 +1,8 @@
 # Projektuppgift
 
 ## Environment & Tools / Utvecklingsmiljö & Verktyg
-Window 10 Operating system, Webstorm 2019.3.4 IDE, Git version 2.25.0.windows.1
+Window 10 Operating system, Webstorm 2019.3.4 IDE, Git version 2.25.0.windows.1, Google Chrome 83.0.4103.61 (64-bit), 
+firefox 76.0.1 (64-bitars) and Microsoft edge, windows explorer version 11.836.18362.0
 , https://validator.w3.org/.
 All images for this project are copies from google pictures
 
@@ -10,45 +11,60 @@ The aim of this project is to create a web application that measures the typing 
 using html for the structure of the application, CSS for styling and javascript for functionality.
 
 ### Procedures
+This project was carried out according to specifications decribed in the document projektbeskrivning in Moodle.
 For this project, the structure of the page is defined in the index.html, styles a implemented in style.css stored 
-in directory css and functionality is implemented in the main.js stored in directory js. The texts for the games are 
-stored in a json file texts.json, img, audio and font contain images, audio and fonts used for this project.
-In my index.html, i design the page composed of three parts; the header, the main and the footer. The header compose 
-of a logo picture and a label,and is styled with a continous animation that repeatedly change background color from 
-pink to yellow and fontsize from small to large. Main compose of settings block styled to position top left of main and
-  made of 3 checkboxes to ignore case, languages swedish and english. At the top right is a droplist with all text user
-   can choose from. Next in main is a display of the selected text from the list and compose of 3 parts; the title 
-   aligned center, the author followed by number of words and characters in brackets and aligned center, and the text 
-   content aligned left. Below the text content is an inputbox where user will enter character containing the defaualt 
-   text "Type here". Below the input box is a controll button to start and stop game. At the button of main is the 
-   statistics block that display gross WPM, Net WPM, accuracy snd errors.The 
- footer has grey background color for distiction. A background image is added to the html element which covers the 
- whole screen when rendered and a second background image was used which cover just the webpage.
- in javascript functions are written to give the following functionalities. Upon loading the page, the texts are 
- read from the json file and stored in two arrays depending on the language. when loaded the default is that swedish 
- is checked, the swedish texts list is loaded and first text of the swedish texts array is selected in choose text 
- droplist and the text content displayed with the first leter highlighted, the typing input box is disabled, and 
- the start button is displayed and statistics are set to zero. The user can click start to proceed with the default 
- or choose to another text from the droplist Choose text. The user can also change the language by checking the box 
- of one language and implementation is such that a click on one checkbox checks that box and unchecks the other such 
- that one and only one language is checked at all times and the droplist is updated with the corresponding text with 
- the first on the list displayed by default. changing language or text in the middle of a game resets the game 
- including statistics but the user can choose to ignore case or not at any point in the course of the game by 
- checking or unchecking the box with a click without restarting the game. 
- When the start button is clicked, the typing input box is enabled and the user can start typing, the start time
-  and the start button is switched to a stop button. When each letter entered the statistics are recalculated and 
-  entered character is compared with the expected character in the displayed text. If the character is correct it's
-  color changes to white but uf incorrect its color changes to red and a pop sound is produced. The highlight then 
-  moves to the next letter to be typed. When the last letter is typed the game ends and the input box is disabled 
-  displaying text game over and start button displayed. If the stop button is clicked in the middle of a game and 
-  started again the restarts from the beginning. stop or end of game keeps statisitics displayed and the when start 
-  button is clicked the statistics are cleared.
-  I encountered problems with getting the text arrays at load time and loading default droplist and default text to 
-  be displayed from the array. So I have a default list in html same as the swedish list and a Text object stored in the 
-  main.js same as the first text of the swedish array, which are loaded at load time. 
+in directory css and functionality is implemented in the main.js stored in directory js. The texts used in this program are 
+stored in the json file texts.json. The folders img, audio and font contain images, audio and fonts respectively used 
+for this project. All the above mentioned directories and files must be taken along to be able to reproduce this program.
+This program has been tested on four browsers and seen to work well on Google Chrome Version 83.0.4103.61 (64-bit), 
+firefox 76.0.1 (64-bitars) and Microsoft edge but does not work on windows explorer version 11.836.18362.0.
 
+
+If the page loads correctly, the page should look as follows. The page should show a clearly distinct header, main and footer. 
+The header should have a logo picture and a label,and styled with a continous animation. 
+In Main at top left 3 checkboxes ignore case, swedish and english should be displayed with swedish checked by default. 
+A droplist 'Choose text' should be displayed on the top right of main containing a list of swedish text with the first on the list 
+selected by default. This list should be updated if user checks the english box with a list of english text and vice versa. 
+The content of selected text should be displayed below the setting and text list and if a new text is updated the 
+text context should be updated too. A highlighter showing the next character to be typed should be positioned at the first
+  letter of the displayed text and should move as typing progress. Below the text should be an input box where the user 
+  can type and should be enabled only when the start button below the box is clicked. The start button should switch to a stop 
+  button when the typing is in progress and back to start when the typing is stopped. The statistics of the typing should 
+  be displayed at the button of the main area comprising of the gross WPM, Net WPM, accuracy and errors which are set to zero 
+  at the beginning of each typing session and updates after each character is typed. As the typing proceed, when an 
+  incorrect characters is typed the color of the character on the text should turn red and a pop sound produced, while 
+  correctly typed characters should turn white. Whenever space is entered, the input box should be cleared. When  The footer 
+  should contain a copyright message and a contact me link.
+  
+  To create distinction in the page, i used a grey background color for the footer and animation in the header that 
+  continuously changes background color from pink to yellow and font size from small to large. Web fonts were also used 
+  for the header and the footer. One challenge was how to switch english and swedish text. To solve this problem, 
+  I stored the text in a json file and as two array one for swedish text and one for swedish text which takes off the 
+  task of looping the whole list to get text with same languauge. At load time, the data in the json file is read using
+   XMLTttpRequested and the JSON objects from the different arrays are converted to javascript objects stored in two 
+   arrays for the two langauges and these arrays serve as the source of the texts for the rest of the program.
+  However I had problems loading the default droplist and text from these arrays at loadtime. To solve this problem, I included a copy 
+  of the swedish list in the html file and had a copy of the default text object stored in javascript that is loaded at load time.
+  To ensure a smooth flow, I made it possible for the user to proceed with typing using the default text by clicking the start button,
+  or choose another text from the droplist. Also I implemented the language check boxes such that checking one box unchecks the other 
+  and swedish is checked by default at loadtime such that one and only language is selected at all times to 
+  ensure that there is always a list to choose from and a text displayed to keep the flow of the page. Changing language or 
+  text in the middle of a typing retarts typing and resets statistics, but ignore casing can be checked and 
+  unchecked at any point in the course of the typing since it is controlled for each character typed. 
+  When the last character is typed, the typing is ended with a message "Game over" printed in the input box, the input box 
+  disabled and the stop buttom switched to start button ready for the next game, But the statistics a kept displayed until the start
+   button is clicked which always clears statistics, or if the text is changed. The statistics were computed using the formula 
+   provided in the project description. To implement the highlighter that shows what character is next, each character 
+   in the text was enclosed in a span element and a yellow background color was applied to the span element of the character to be 
+   highlighted. 
+ 
 
 ### Discussion
-
-
-
+In this project, I have done all the implementations for the B grade and present a working program that measures the 
+typing speed and accuracy of the user.  I think the project description was very elaborate and provided useful tips 
+that helped alot in the implementation of this project. In the course of this project I have learnt how to add store 
+data in a json file, how to read a json file through a server and how to convert json object to javasript objects. I 
+also learnt how to use @font face to incorporate non generic font types and @keyframes animate to add animation. I 
+also learnt how to link multiple functions in js to produce the dependencies in the different parts of a program. I also 
+appreciate the feedback in the forum during the course of the project. The project was an appropriate evaluation for this 
+course.
