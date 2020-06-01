@@ -39,10 +39,10 @@ text context should be updated too. A highlighter showing the next character to 
   To create distinction in the page, i used a grey background color for the footer and animation in the header that 
   continuously changes background color from pink to yellow and font size from small to large. Web fonts were also used 
   for the header and the footer. One challenge was how to switch english and swedish text. To solve this problem, 
-  I stored the text in a json file and as two array one for swedish text and one for swedish text which takes off the 
+  I stored the text in a json file and as two arrays, one for swedish text and one for swedish text, which takes off the 
   task of looping the whole list to get text with same languauge. At load time, the data in the json file is read using
-   XMLTttpRequested and the JSON objects from the different arrays are converted to javascript objects stored in two 
-   arrays for the two langauges and these arrays serve as the source of the texts for the rest of the program.
+   XMLTttpRequest and the JSON objects from the different arrays are converted to javascript objects and stored in two 
+   arrays for the swedish and english texts and these arrays serve as the source of the texts for the rest of the program.
   However I had problems loading the default droplist and text from these arrays at loadtime. To solve this problem, I included a copy 
   of the swedish list in the html file and had a copy of the default text object stored in javascript that is loaded at load time.
   To ensure a smooth flow, I made it possible for the user to proceed with typing using the default text by clicking the start button,
@@ -56,15 +56,16 @@ text context should be updated too. A highlighter showing the next character to 
    button is clicked which always clears statistics, or if the text is changed. The statistics were computed using the formula 
    provided in the project description. To implement the highlighter that shows what character is next, each character 
    in the text was enclosed in a span element and a yellow background color was applied to the span element of the character to be 
-   highlighted. 
+   highlighted. I used two background images, one that covers the whole screen and one for the body of the webpage. This project
+   has been published on the student web and cn be access through http://studenter.miun.se/~holi1900/project.
  
 
 ### Discussion
 In this project, I have done all the implementations for the B grade and present a working program that measures the 
-typing speed and accuracy of the user.  I think the project description was very elaborate and provided useful tips 
-that helped alot in the implementation of this project. In the course of this project I have learnt how to add store 
+typing speed and accuracy of the user. I think the project description was very elaborate and provided useful tips 
+that helped alot in the implementation of this project. In the course of this project I have learnt how to store 
 data in a json file, how to read a json file through a server and how to convert json object to javasript objects. I 
 also learnt how to use @font face to incorporate non generic font types and @keyframes animate to add animation. I 
-also learnt how to link multiple functions in js to produce the dependencies in the different parts of a program. I also 
-appreciate the feedback in the forum during the course of the project. The project was an appropriate evaluation for this 
-course.
+also learnt how to add audio using javascript, how to create html element is javascript and how to link multiple 
+functions in js to interconnect different parts of the program. I also appreciate the feedback in the forum 
+during the course of the project. The project was an appropriate evaluation for this course.
