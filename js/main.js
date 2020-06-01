@@ -43,13 +43,11 @@ function getTexts(){
         //load englishText
         for(var i=0; i<jsonEnTexts.length; i++)
         {
-            //console.log(JSON.parse(jsonEnTexts[i]));
             var title = jsonEnTexts[i].title;
             var author = jsonEnTexts[i].author;
             var language = jsonEnTexts[i].language;
             var text = jsonEnTexts[i].text;
             englishTexts.push(new Text(title, author, language, text));
-            console.log("engligh title: " + englishTexts[i].title);
         }
         //load swedishText
         for(var j=0; j<jsonSeTexts.length; j++)
@@ -59,7 +57,6 @@ function getTexts(){
             var language2 = jsonSeTexts[j].language;
             var text2 = jsonSeTexts[j].text;
             swedishTexts.push(new Text(title2, author2, language2, text2));
-            console.log("swedish title: " + swedishTexts[j].title);
         }
     }
 }
@@ -74,10 +71,6 @@ var correctLetter;
 var typedLetter;
 var textLength =0;
 
-
-/*function byId(id) {
-    return document.getElementById(id);
-}*/
 /**
  * this function controls the language options. When one language is clicked, that language is checked
  * and the other is unchecked, such that only one language can be choosen at a time.
@@ -107,19 +100,6 @@ function chooseLanguage() {
     }, false)
 }
 
-/*function showMe(msg, arr) {
-    console.log(msg)
-    if(arr !== null) {
-        for (let i = 0; i < arr.length; i++) {
-            console.log(arr[i]);
-
-        }
-    }else{
-        console.log("Arry is null");
-    }
-
-}*/
-
 /**
  * This function creates a select element, then determines which language is checked and create and append option
  * elements within the select element, one option for each text in the choosen Text array depending on the checked language.
@@ -132,24 +112,20 @@ function createOptions() {
     {
         for(var i= 0; i<swedishTexts.length; i++)
         {
-            console.log("swedishlength: " + swedishTexts.length);
             var option = document.createElement("option");
             option.value = i+1;
             option.innerText = swedishTexts[i].title;
-            //console.log("choices "+ swedishTexts[i].title);
             select.appendChild(option);
         }
     }
 
     if(document.getElementById("english").checked)
     {
-        //console.log("length: " + englishTexts.length);
         for(var j= 0; j<englishTexts.length; j++)
         {
             var option2 = document.createElement("option");
             option2.value = j+1;
             option2.innerText = englishTexts[j].title;
-            //console.log("choices "+ englishTexts[j].title)
             select.appendChild(option2);
         }
     }
@@ -172,10 +148,7 @@ function spanText(myText) {
     for (var i = 0; i < text_length; ++i) {
         var span = document.createElement("span");
         span.className = "char";
-        //span.className = "test_character";
-        // console.log("Character: " + myText[i] + "\n")
         span.innerText = myText[i];
-        // console.log("Spanned: " + span + "\n");
         p.appendChild(span);
     }
     return p;
@@ -212,7 +185,6 @@ function resetgame() {
     displayText(selectedText);
     chars[0].style.backgroundColor = "yellow";
     document.getElementById("typing_area").value= "";
-    //resetStatistics();
 }
 
 
@@ -284,6 +256,7 @@ function defaultState(){
     var button_id = document.getElementById("control_button");
     button_id.value= 'START';
     button_id.style.backgroundImage = "url('img/green.jpg')";
+
     var typingAreaId = document.getElementById("typing_area");
     typingAreaId.value = "";
     typingAreaId.disabled = true;
@@ -301,7 +274,6 @@ function enableInputArea(){
     var choice = button_id.value;
     if (choice === "START") {
         typingAreaId.disabled = true;
-
     }
     else if (choice === "STOP") {
         typingAreaId.disabled = false;
@@ -332,7 +304,6 @@ function updateStatistics() {
     document.getElementById("net_wpm").innerText = netWPM;
     document.getElementById("accuracy").innerText = typing_accuracy;
     document.getElementById("errors").innerText = total_errors;
-    console.log("total errors: " + total_errors + "\n");
 }
 
 /**
@@ -386,13 +357,11 @@ function trackTyping(){
         currentTime = getNewTime();
         console.log("current time: " + currentTime + "\n");
         console.log("start time: " + startTime + "\n");
-        // console.log("text chars: " + currentTextContent[total_char-] + "\n");
 
         var typedText = typeAreaId.value;
         var lengthOfText = typedText.length;
         chars[total_char-1].style.color = "white"; //changes color of type character
         chars[total_char-1].style.backgroundColor = ""; // remove highlight from the typed character
-        //chars[total_char].style.backgroundColor = "yellow"; //place highlight to next character
         correctLetter = chars[total_char-1].innerHTML;
         typedLetter = typedText[lengthOfText- 1];
 

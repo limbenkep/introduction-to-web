@@ -54,7 +54,7 @@ text context should be updated too. A highlighter showing the next character to 
   When the last character is typed, the typing is ended with a message "Game over" printed in the input box, the input box 
   disabled and the stop buttom switched to start button ready for the next game, But the statistics a kept displayed until the start
    button is clicked which always clears statistics, or if the text is changed. The statistics were computed using the formula 
-   provided in the project description. To implement the highlighter that shows what character is next, each character 
+   provided in the project description and timing starts when theh start button is clicked. To implement the highlighter that shows what character is next, each character 
    in the text was enclosed in a span element and a yellow background color was applied to the span element of the character to be 
    highlighted. I used two background images, one that covers the whole screen and one for the body of the webpage. This project
    has been published on the student web and cn be access through http://studenter.miun.se/~holi1900/project.
